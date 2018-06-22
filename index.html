@@ -41,13 +41,32 @@
       firebase.initializeApp(config);
       
       var ref = firebase.database().ref();
-      var joueurHomme = ref.child('joueurHomme');
+      var tournoi = ref.child('tournoi');
       
-      joueurHomme.on("value", function(snapshot) {
+      tournoi.on("value", function(snapshot) {
         console.log(snapshot.val());
+        var content = '';
+        snapshot.forEach(function(data){
+            var val = data.val();
+            content +='<tr>';
+            content += '<td>' + val.dateDebut + '</td>';
+            content += '<td>' + val.dateFin + '</td>';
+            content += '<td>' + val.idPays + '</td>';
+            content += '<td>' + val.latitudeDebut + '</td>';
+            content += '<td>' + val.latitudeFin + '</td>';
+            content += '<td>' + val.longitudeDebut + '</td>';
+            content += '<td>' + val.longitudeFin + '</td>';
+            content += '<td>' + val.nom + '</td>';
+            content += '</tr>';
+        });
+        $('#ex-table').append(content);
      }, function (error) {
         console.log("Error: " + error.code);
      });
+     
+     
+     
+     //document.getElementById('nomTournoi').value = tournoi.
       
     </script>
 
@@ -55,10 +74,21 @@
 
   <body>
 
-    <!-- Navigation -->
+      <!--<table style="width:100%" id="ex-table">
+        <tr id="tr">
+          <th>Date début</th>
+          <th>Date Fin</th> 
+          <th>Id Pays</th>
+          <th>Latitude Debut</th>
+          <th>Latitude Fin</th>
+          <th>Longitude Début</th>
+          <th>Longitude Fin</th>
+          <th>Nom</th>
+       </table> -->
+          <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <a class="navbar-brand" href="#">Tennis Croustillant</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,7 +120,7 @@
 
         <div class="col-lg-3">
 
-          <h1 class="my-4">Shop Name</h1>
+          <h1 class="my-4">Tournois à venir</h1>
           <div class="list-group">
             <a href="#" class="list-group-item">Category 1</a>
             <a href="#" class="list-group-item">Category 2</a>
@@ -135,7 +165,7 @@
               <div class="card h-100">
                 <a href="infos.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                 <div class="card-body">
-                  <h4 class="card-title">
+                  <h4 class="card-title" id="nomTournoi">
                     <a href="#">Item One</a>
                   </h4>
                   <h5>$24.99</h5>
@@ -251,33 +281,7 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
-    <script>
-        $( document ).ready(function() {
-            let config = {
-                apiKey: "AIzaSyAEJZ0stYpuv6jwtYfv4t9T7X5p3yzPirA",
-                authDomain: "teniscroustillant.firebaseapp.com",
-                databaseURL: "https://teniscroustillant.firebaseio.com/",
-                projectId: "teniscroustillant"
-            };
-            firebase.initializeApp(config);
-
-            /*var dbRef = firebase.database();
-            var arbitreRef = dbRef.ref('arbitre');
-
-            arbitreRef.on("child_added", function(snap) {
-                console.log("added", snap.key(), snap.val());
-                $('#test').append(contactHtmlFromObject(snap.val()));
-            });*/
-        });
-
-        /*function contactHtmlFromObject(contact){
-            console.log( contact );
-            var html = '';
-            html += contact.username;
-            return html;
-        }*/
-
-    </script>
+    
 
   </body>
 
