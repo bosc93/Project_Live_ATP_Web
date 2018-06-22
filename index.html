@@ -215,6 +215,34 @@
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+    <script>
+        $( document ).ready(function() {
+            let config = {
+                apiKey: "AIzaSyAEJZ0stYpuv6jwtYfv4t9T7X5p3yzPirA",
+                authDomain: "teniscroustillant.firebaseapp.com",
+                databaseURL: "https://teniscroustillant.firebaseio.com/",
+                projectId: "teniscroustillant"
+            };
+            firebase.initializeApp(config);
+
+            /*var dbRef = firebase.database();
+            var arbitreRef = dbRef.ref('arbitre');
+
+            arbitreRef.on("child_added", function(snap) {
+                console.log("added", snap.key(), snap.val());
+                $('#test').append(contactHtmlFromObject(snap.val()));
+            });*/
+        });
+
+        /*function contactHtmlFromObject(contact){
+            console.log( contact );
+            var html = '';
+            html += contact.username;
+            return html;
+        }*/
+
+    </script>
 
   </body>
 
