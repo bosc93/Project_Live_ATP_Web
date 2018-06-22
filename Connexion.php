@@ -1,11 +1,48 @@
-<?php
-session_start();
+<html>
+<head>
+    <meta charset="utf-8" />
 
-echo '<h1>Connexion</h1>';
-if ($id!=0) erreur(ERR_IS_CO);
+<!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
 
-if (!isset($_POST['pseudo'])) {
-	echo '<form method="post" action="connexion.php">
+
+    <!-- Add additional services you want to use -->
+    <!--<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-functions.js"></script>-->
+	<script type = 'text/javascript'>
+
+
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAEJZ0stYpuv6jwtYfv4t9T7X5p3yzPirA",
+        authDomain: "teniscroustillant.firebaseapp.com",
+        databaseURL: "https://teniscroustillant.firebaseio.com",
+        projectId: "teniscroustillant",
+        storageBucket: "teniscroustillant.appspot.com",
+        messagingSenderId: "272741883274"
+      };
+      firebase.initializeApp(config);
+      
+      var ref = firebase.database().ref();
+      var utilisateur = ref.child('utilisateur');
+      
+      utilisateur.on("value", function(snapshot) {
+        console.log(snapshot.val());
+     }, function (error) {
+        console.log("Error: " + error.code);
+     });
+	 
+	 if(utilisateur.key ==0){
+	 </script>
+      
+</head>
+	<body>
+
+<form method="post" action="connexion.php" onsubmit="">
 	<fieldset>
 	<legend>Connexion</legend>
 	<p>
@@ -13,60 +50,28 @@ if (!isset($_POST['pseudo'])) {
 	<label for="password">Mot de Passe :</label><input type="password" name="password" id="password" />
 	</p>
 	</fieldset>
-	<p><input type="submit" value="Connexion" /></p></form>
+	<input type="button" name="bouton" value="Se connecter" onclick="Connexion(this.form)">
 	<a href="./register.php">Pas encore inscrit ?</a>
 	 
 	</div>
 	</body>
-	</html>';
-}
-else{
-    $message='';
-    if (empty($_POST['pseudo']) || empty($_POST['password']) ) //Oublie d'un champ
-    {
-        $message = '<p>une erreur s\'est produite pendant votre identification.
-	Vous devez remplir tous les champs</p>
-	<p>Cliquez <a href="./connexion.php">ici</a> pour revenir</p>';
-    }
-    else //On check le mot de passe
-    {
-        //Requete à adapter en fonction de Firebase***
-        $query=$db->prepare('SELECT membre_mdp, membre_id, membre_rang, membre_pseudo
-        FROM forum_membres WHERE membre_pseudo = :pseudo');
-        //***
-        $query->bindValue(':pseudo',$_POST['pseudo'], PDO::PARAM_STR);
-        $query->execute();
-        $data=$query->fetch();
-	if ($data['membre_mdp'] == md5($_POST['password'])) // Acces OK !
-	{
-	    $_SESSION['pseudo'] = $data['membre_pseudo'];
-	    $_SESSION['level'] = $data['membre_rang'];
-	    $_SESSION['id'] = $data['membre_id'];
-	    $message = '<p>Bienvenue '.$data['membre_pseudo'].', 
-			vous êtes maintenant connecté!</p>
-			<p>Cliquez <a href="./index.php">ici</a> 
-			pour revenir à la page d accueil</p>';  
+	<script type = 'text/javascript'>
 	}
-	else // Acces pas OK !
-	{
-	    $message = '<p>Une erreur s\'est produite 
-	    pendant votre identification.<br /> Le mot de passe ou le pseudo 
-            entré n\'est pas correcte.</p><p>Cliquez <a href="./connexion.php">ici</a> 
-	    pour revenir à la page précédente
-	    <br /><br />Cliquez <a href="./index.php">ici</a> 
-	    pour revenir à la page d accueil</p>';
+	else{	
+			</script>
+			</head>
+			Vous �tes d�j� connect�.
+			<script>
 	}
-    $query->CloseCursor();
-    }
-    echo $message.'</div></body></html>';
+</script>
+</html>
 
+<script type = 'text/javascript'>
+function Connexion(formulaire){
+	var pseudo = formulaire.pseudo;
+	var password = formulaire.password;
+	
+	
 }
+</script>
 
-function erreur($err='')
-{
-   $mess=($err!='')? $err:'Une erreur inconnue s\'est produite';
-   exit('<p>'.$mess.'</p>
-   <p>Cliquez <a href="./index.php">ici</a> pour revenir à la page d\'accueil</p></div></body></html>');
-}
-
-?>
