@@ -42,24 +42,33 @@
       
       var ref = firebase.database().ref();
       var tournoi = ref.child('tournoi');
+      var pays = ref.child('pays');
       
-      tournoi.on("value", function(snapshot) {
+      tournoi.orderByChild('timestampDebut').on("value", function(snapshot) {
         console.log(snapshot.val());
         var content = '';
+        var cpt = 0;
         snapshot.forEach(function(data){
             var val = data.val();
-            content +='<tr>';
-            content += '<td>' + val.dateDebut + '</td>';
-            content += '<td>' + val.dateFin + '</td>';
-            content += '<td>' + val.idPays + '</td>';
-            content += '<td>' + val.latitudeDebut + '</td>';
-            content += '<td>' + val.latitudeFin + '</td>';
-            content += '<td>' + val.longitudeDebut + '</td>';
-            content += '<td>' + val.longitudeFin + '</td>';
-            content += '<td>' + val.nom + '</td>';
-            content += '</tr>';
+            content +='<div class="col-lg-4 col-md-6 mb-4" id="tuile_'+cpt+'">';
+            content += '<input hidden id="key" value="'+data.key+'"/>';
+            content += '<div class="card h-60" id="card-'+cpt+'">';
+            content += '<div class="card-body" id="card-body-'+cpt+'">';
+            content += '<h4 class="card-title" id="card-title-'+cpt+'">';
+            content += '<a href="#" id="nom-tournoi-'+cpt+'">'+val.nom+'</a>';
+            content += '</h4>';
+            content += '<h5>'+val.dateDebut+'-'+val.dateFin+'</h5>';
+            content += '<p class="card-text" id="card-text-'+cpt+'">En attente de match</p>';
+            content += '</div>';
+            content += '<div class="card-footer" id="card-footer-'+cpt+'">';
+            content += '<small class="text-muted" id="text-muted-'+cpt+'">'+val.idPays+'</small>';
+            content += '</div>';
+            content += '</div>';
+            content += '</div>';
+            cpt++;
         });
-        $('#ex-table').append(content);
+        $('#row_tuile').append(content);
+        
      }, function (error) {
         console.log("Error: " + error.code);
      });
@@ -159,103 +168,9 @@
             </a>
           </div>
 
-          <div class="row">
+          <div class="row" id="row_tuile">
 
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="infos.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title" id="nomTournoi">
-                    <a href="#">Item One</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">Item Two</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">Item Three</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">Item Four</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">Item Five</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100">
-                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                <div class="card-body">
-                  <h4 class="card-title">
-                    <a href="#">Item Six</a>
-                  </h4>
-                  <h5>$24.99</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                </div>
-              </div>
-            </div>
+            
 
           </div>
           <!-- /.row -->
