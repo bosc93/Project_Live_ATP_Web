@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Shop Homepage - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    
+    
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
+    <!-- Add additional services you want to use -->
+    <!--<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-functions.js"></script>-->
+    
+    <link rel="stylesheet" type="text/css" href="datatables.css"/>
+ 
+<script type="text/javascript" src="datatables.js">
+        
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAEJZ0stYpuv6jwtYfv4t9T7X5p3yzPirA",
+        authDomain: "teniscroustillant.firebaseapp.com",
+        databaseURL: "https://teniscroustillant.firebaseio.com",
+        projectId: "teniscroustillant",
+        storageBucket: "teniscroustillant.appspot.com",
+        messagingSenderId: "272741883274"
+      };
+      firebase.initializeApp(config);
+      
+      var ref = firebase.database().ref();
+        //Affichage des joueurs Hommes avec leur stats et le
+           var joueurH = ref.child('JoueurHomme');
+           var content='';
+           
+      joueurH.on("value", function(snapshot) {
+        console.log(snapshot.val());
+
+        snapshot.forEach(function(data){
+            var val = data.val();
+			var idJoueurH = val.idPlayerScore;
+            content='<tr>';
+            content += '<td>' + val.nom + '</td>';
+            content += '<td>' + val.prenom + '</td>';
+            content += '<td>' + val.codeNationalite + '</td>';
+            content += '<td>' + val.dateNaissance + '</td>';
+            content += '<td>' + val.idPlayerScore + '</td>';
+            content += '<td>' + val.main + '</td>';
+            content += firebase.database().ref('/StatsJoueurHomme/' + idJoueurH).once('value').then(function(snapshot) {
+  var chaine = '<td>' + (snapshot.val() && snapshot.val().abandon) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().ace) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().avantage) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().breack) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().debreak) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().defaite) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().exclusion) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().faute) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().idJoueur) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().sanctionJeu) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().sanctionOrdre) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().secondService) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().service) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().victoire) + '</td>';
+  
+});
+
+            content += firebase.database().ref('/classementHomme/' + idJoueurH).once('value').then(function(snapshot) {
+  var chaine = '<td>' + (snapshot.val() && snapshot.val().abandon) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().classement) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().idPlayerScore) + '</td>';
+  chaine += '<td>' + (snapshot.val() && snapshot.val().points) + '</td>';
+});
+
+            
+            content += '</tr>';
+        });
+        $('#ex-table').append(content);
+     }, function (error) {
+        console.log("Error: " + error.code);
+     });
+    </script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Tennis Croustillant</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+        <div class="container">
+            <table id="listeJoueur">
+                <script type="text/javascript" src="datatables.js">
+                    alert(content);
+                     document.getElementById("monBody").insertRow(content);
+                </script>
+            </table>
+            
+            <script type="text/javascript" src="datatables.js">
+                var $  = require( 'jquery' );
+                var dt = require( 'datatables.net' )();
+                
+                $(document).ready( function () {
+                    $('listeJoueur').DataTable();
+                } );
+                
+            </script>
+        </div>
+
+    </body>
+</html>
