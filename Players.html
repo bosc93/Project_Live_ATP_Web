@@ -101,7 +101,7 @@
         snapshot.forEach(function(data){
             var val = data.val();
 
-			var idJoueurH = val.idPlayerScore;
+            var idJoueurH = val.idPlayerScore;
             content='<tr>';
             content += '<td>' + val.nom + '</td>';
             content += '<td>' + val.prenom + '</td>';
@@ -109,6 +109,7 @@
             content += '<td>' + val.dateNaissance + '</td>';
             content += '<td>' + val.idPlayerScore + '</td>';
             content += '<td>' + val.main + '</td>';
+            content='</tr>';
 			
 			            cpt++;
         });
@@ -118,7 +119,8 @@
         console.log("Error: " + error.code);
      });
 	 alert(content);
-			</script>
+         $('#row_tuile').appendChild(content)
+	</script>
         </tbody>
     </table>
 
